@@ -1,0 +1,76 @@
+Operation: b1;
+Begin Transaction 1
+
+Operation: r1(Y);
+Transaction 1 Reading Y
+
+Operation: r1(Z);
+Transaction 1 Reading Z
+
+Operation: b2;
+Begin Transaction 2
+
+Operation: r2(Y);
+Transaction 2 is added to the access list for Y
+
+Transaction 2 Reading Y
+
+Operation: b3;
+Begin Transaction 3
+
+Operation: r3(Y);
+Transaction 3 is added to the access list for Y
+
+Transaction 3 Reading Y
+
+Operation: w1(Z);
+Transaction 1 Upgrading Read Lock on Z to Write Lock
+
+Operation: e1;
+Transaction 1 releasing all data item locks['Y', 'Z']
+
+Commit Transaction 1
+
+Operation: w2(Y);
+Transaction 3 releasing all data item locks['Y']
+
+Transaction 3 Aborting 
+Transaction 3 Aborted
+
+Transaction 2 Writing Y
+Operation: r2(X);
+Transaction 2 Reading X
+
+Operation: b4;
+Begin Transaction 4
+
+Operation: r4(Z);
+Transaction 4 Reading Z
+
+Operation: r4(Y);
+Transaction 4 is added to the access list for Y
+
+Transaction 4 Reading Y
+
+Operation: w2(X);
+Transaction 2 Upgrading Read Lock on X to Write Lock
+
+Operation: e2;
+Transaction 2 releasing all data item locks['Y', 'X']
+
+Commit Transaction 2
+
+Operation: w4(Z);
+Transaction 4 Upgrading Read Lock on Z to Write Lock
+
+Operation: e3;
+Transaction 3 is already Aborted 
+
+Operation: w4(Y);
+Transaction 4 Upgrading Read Lock on Y to Write Lock
+
+Operation: e4;
+Transaction 4 releasing all data item locks['Z', 'Y']
+
+Commit Transaction 4
+
